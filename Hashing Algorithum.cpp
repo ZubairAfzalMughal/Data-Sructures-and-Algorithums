@@ -36,8 +36,50 @@ public:
 	}
 
 	void InserstData(int value);
+	Node *Search(int val);
+	void delte(int val);
 	void Display();
 };
+Node* LinkedList::Search(int val)
+{
+	Node *ptr = head;
+	while (ptr!=NULL)
+	{
+		if (ptr->data == val)
+		{
+			cout << "Value is found\n";
+			return ptr;
+			break;
+		}
+		ptr = ptr->next;
+
+	}
+}
+void LinkedList::delte(int val)
+{
+	Node *find=Search(val);
+	if (find == head)
+	{
+		head = head->next;
+		find->next = NULL;
+		head->prev = NULL;
+		delete find;
+	}
+	else if (find == tail)
+	{
+		tail = tail->prev;
+		tail->next = NULL;
+		delete find;
+	}
+	else
+	{
+		find->next->prev = find->prev;
+		find->prev->next = find->next;
+		find->next = NULL;
+		find->prev = NULL;
+		delete find;
+	}
+}
 void LinkedList::InserstData(int value)
 {
 	// create a node first
@@ -84,6 +126,7 @@ public:
 	}
 	int HashFunction(int val);
 	void insert_data(int val);
+	void delete_Content(int val);
 	void Display_Table_Content();
 
 };
@@ -105,6 +148,11 @@ void Hashing::insert_data(int val)
 
 	this->Table[index].InserstData(val); // inserting data into Hash table  
 }
+void Hashing::delete_Content(int val)
+{
+	int index = HashFunction(val);
+	Table[index].delte(val);
+}
 void Hashing::Display_Table_Content()
 {
 	for (int i = 0; i < this->sizeHashTable; i++)
@@ -125,6 +173,9 @@ int main()
 	H.insert_data(40);
 	H.insert_data(140);
 	H.Display_Table_Content();
+	H.delete_Content(10);
+	cout << endl;
+	H.Display_Table_Content();
 }
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
 // Debug program: F5 or Debug > Start Debugging menu
@@ -136,3 +187,4 @@ int main()
 //   4. Use the Error List window to view errors
 //   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
 //   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
+
