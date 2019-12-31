@@ -62,7 +62,6 @@ void LinkedList::delte(int val)
 	{
 		head = head->next;
 		find->next = NULL;
-		head->prev = NULL;
 		delete find;
 	}
 	else if (find == tail)
